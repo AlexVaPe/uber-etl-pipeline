@@ -33,3 +33,6 @@ More info about dataset can be found here:
 
 ## Data Model
 <img src="uber_data_model.jpeg">
+
+## Dashboard
+<img src="uber_dashboard.png">
