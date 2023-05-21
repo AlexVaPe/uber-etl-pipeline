@@ -25,3 +25,31 @@ sudo pip3 install google-cloud-bigquery
 
 # Start mage project
 mage start uber_etl_project
+
+# ANALYTICS
+## Find the top 10 pickup locations based on the number of trips
+
+select p.pickup_longitude, p.pickup_latitude, count(f.trip_id) as trips
+from `kinetic-silicon-386409.uber_dataengineering_alex.fact_table` as f
+join `kinetic-silicon-386409.uber_dataengineering_alex.pickup_location_dim` as p
+on f.pickup_location_id = p.pickup_location_id
+group by p.pickup_longitude, p.pickup_latitude
+order by trips desc
+
+## Find the total number of trips by passenger count
+
+select p.passenger_count, count(f.trip_id) as trips
+from `kinetic-silicon-386409.uber_dataengineering_alex.fact_table` f
+join `kinetic-silicon-386409.uber_dataengineering_alex.passenger_count_dim` p
+on f.passenger_count_id = p.passenger_count_id
+group by p.passenger_count
+order by p.passenger_count desc
+
+## Find the average fare amount by hour of the day
+
+select d.drop_hour, avg(f.fare_amount)
+from `kinetic-silicon-386409.uber_dataengineering_alex.fact_table` as f
+join `kinetic-silicon-386409.uber_dataengineering_alex.datetime_dim` d
+on f.datetime_id = f.datetime_id
+group by d.drop_hour
+order by d.drop_hour asc
